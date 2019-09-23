@@ -302,7 +302,6 @@ int main(){
 		 			   while(getline(arquivo, linha)){
 		 				   if(linha == Nome_produto){
 		 					   leitura++;
-		 					   arquivo.close();
 		 				   }
 		 			   }
 		 			   arquivo.close();
@@ -314,6 +313,11 @@ int main(){
 
 		 		  //Se o produto existe...
 
+				  cout << "Informe a quantidade antiga do produto: ";
+		 		  Quantidade = getInput <int> ();
+
+string linha_procurada = "Quantidade de " + Nome_produto + ": " + to_string(Quantidade);
+
 				  cout << "Informe a quantidade nova do produto: ";
 		 		  Quantidade = getInput <int> ();
 
@@ -322,9 +326,12 @@ int main(){
 		 		  arquivo.open("doc/Estoque.txt", ios::in);
 		 		  arquivo2.open("doc/Temporario.txt", ios::out);
 
-		 		  string linha_lida;
+		 		  string linha_lida;				  
 
 		 		  while(getline(arquivo, linha_lida)){
+					   if(linha_lida == linha_procurada){
+						  linha_lida = "Quantidade de " + Nome_produto + ": " + to_string(Quantidade);
+					   }
 		 			  linha_lida += '\n';
 		 			  arquivo2 << linha_lida;
 		 		  }
