@@ -1,3 +1,8 @@
+Versão 1.5
+
+-Código do Modo Estoque otimizado
+
+------------------------------------------------------------------------------
 Versão 1.4
 
 -Modo Estoque concluído
