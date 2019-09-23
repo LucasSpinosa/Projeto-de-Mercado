@@ -42,7 +42,7 @@ int main(){
     cout << "Modo Venda - Opções" << endl << endl;
     cout << "(1) = Registrar categoria" << endl; //FEITO
     cout << "(2) = Listar categorias" << endl; //FEITO
-    cout << "(3) = Registrar produtos" << endl; //+-FEITO (DAR UM JEITO DE COLOCAR VECTOR)
+    cout << "(3) = Registrar produtos" << endl; //FEITO
     cout << "(4) = Listar produtos" << endl; //FEITO
     cout << "(5) = Editar quantidade de um produto" << endl;
     cout << "(0) = Sair" << endl << endl; //FEITO
@@ -83,7 +83,7 @@ int main(){
 
             Categoria categoria(Nome_categoria);
 
-            arquivo << categoria.getNome() << endl << endl;
+            arquivo << categoria.getNome() << endl;
 
             cout << endl;
 
@@ -126,7 +126,8 @@ int main(){
         	string Nome_categoria;
         	string Nome_produto;
         	string Tipo_produto;
-        	int Quantidade;
+        	int Quantidade_produto;
+        	int Quantidade_categorias;
         	float Preco;
 
         	int leitura = 0;
@@ -155,10 +156,15 @@ int main(){
 
  		   else{
 
- 		   cout << "Insira a categoria do produto: ";
-           Nome_categoria = getString();
+ 		   cout << "Insira o número de categorias do produto: ";
+           Quantidade_categorias = getInput<int>();
 
-           //DAR UM JEITO DE IR ARMAZENANDO EM VECTOR
+           cout << endl;
+
+           for(int i = 0; i < Quantidade_categorias; i++){
+
+           cout << "Insira a categoria: ";
+           Nome_categoria = getString();
 
            arquivo.open("Categorias.txt", ios::in);
            if(arquivo.is_open()){
@@ -181,18 +187,21 @@ int main(){
 
            categoria.setNome(Nome_categoria);
            categorias.push_back(categoria);
-
+           }
+        }
         		   arquivo.open("Estoque.txt", ios::out | ios::app);
 
         		   produto.setCategoria(categorias);
+
+        		   cout << endl;
 
         		   cout << "Insira o tipo do produto: ";
         		   Tipo_produto = getString();
         		   produto.setTipo(Tipo_produto);
 
         		   cout << "Insira a quantidade do produto: ";
-                   Quantidade = getInput<int>();
-                   produto.setQuantidade(Quantidade);
+                   Quantidade_produto = getInput<int>();
+                   produto.setQuantidade(Quantidade_produto);
 
                    cout << "Insira o preço do produto: ";
                    Preco = getInput<float>();
@@ -202,7 +211,7 @@ int main(){
                    arquivo << "Categorias: ";
 
                    for(int i = 0; i < categorias.size(); i++){
-                	   arquivo << categorias[i].getNome();
+                	   arquivo << categorias[i].getNome() << " ";
                    }
 
                    arquivo << endl;
@@ -212,12 +221,12 @@ int main(){
                    arquivo << "Preço: R$ " << fixed << setprecision(2) << produto.getPreco() << endl << endl;
                    cout << endl;
  		   }
- 		   }
 
  		arquivo.close();
 
         break;
     }
+
         case 4:
         {
                	arquivo.open("Estoque.txt", ios::in);

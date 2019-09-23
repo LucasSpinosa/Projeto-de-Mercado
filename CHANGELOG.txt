@@ -1,5 +1,10 @@
 Versão 1.2
 
+-Desenvolvi mais o Modo Estoque
+
+------------------------------------------------------------------------------
+Versão 1.1
+
 -Removi o atributo "Tipo_de_Produtos" na classe Categoria
 -Removi os métodos e códigos relacionados à ao atributo removido
 -Implementei um jeito de verificar se o produto já foi registado no Modo Estoque
