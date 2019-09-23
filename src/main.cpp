@@ -313,6 +313,26 @@ int main(){
 		 		   }
 
 		 		  //Se o produto existe...
+
+				  cout << "Informe a quantidade nova do produto: ";
+		 		  Quantidade = getInput <int> ();
+
+		 		  fstream arquivo2;
+
+		 		  arquivo.open("doc/Estoque.txt", ios::in);
+		 		  arquivo2.open("doc/Temporario.txt", ios::out);
+
+		 		  string linha_lida;
+
+		 		  while(getline(arquivo, linha_lida)){
+		 			  linha_lida += '\n';
+		 			  arquivo2 << linha_lida;
+		 		  }
+
+		 		  arquivo.close();
+		 		  arquivo2.close();
+
+
 		 		  break;
 		        }
 
