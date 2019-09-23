@@ -1,0 +1,6 @@
+Fruta
+Categorias: Frios Frios 
+Tipo: 4
+Quantidade de Fruta: 4
+Preço: R$ 4.00
+
