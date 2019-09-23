@@ -1,0 +1,4 @@
+Versão 1.0
+
+-Criadas as classes Categoria, Produto e Cliente, junto das implementações.
+-Modo Estoque quase todo completo.
