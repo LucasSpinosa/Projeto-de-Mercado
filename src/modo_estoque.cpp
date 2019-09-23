@@ -42,7 +42,7 @@ int main(){
     cout << "Modo Venda - Opções" << endl << endl;
     cout << "(1) = Registrar categoria" << endl; //FEITO
     cout << "(2) = Listar categorias" << endl; //FEITO
-    cout << "(3) = Registrar produtos" << endl; //+-FEITO (PRECISA CHEGAR SE O PRODUTO OU CATEGORIA JÁ EXISTE
+    cout << "(3) = Registrar produtos" << endl; //+-FEITO (DAR UM JEITO DE COLOCAR VECTOR)
     cout << "(4) = Listar produtos" << endl; //FEITO
     cout << "(5) = Editar quantidade de um produto" << endl;
     cout << "(0) = Sair" << endl << endl; //FEITO
@@ -56,7 +56,6 @@ int main(){
         {
         	int leitura = 0;
             string Nome_categoria;
-            string Tipos_de_produtos;
             
             cout << "Nome da categoria: ";
             Nome_categoria = getString();
@@ -82,14 +81,9 @@ int main(){
             else{
                arquivo.open("Categorias.txt", ios::out | ios::app);
 
+            Categoria categoria(Nome_categoria);
 
-            cout << "Tipos de produtos que se encaixam nessa categoria: ";
-            Tipos_de_produtos = getString();
-
-            Categoria categoria(Nome_categoria, Tipos_de_produtos);
-
-            arquivo << categoria.getNome() << endl;
-            arquivo << "Tipos de Produtos: " << categoria.getTipos() << endl << endl;
+            arquivo << categoria.getNome() << endl << endl;
 
             cout << endl;
 
@@ -135,20 +129,58 @@ int main(){
         	int Quantidade;
         	float Preco;
 
+        	int leitura = 0;
+        	int leitura_2 = 0;
+
  		   cout << "Insira o nome do produto: ";
  		   Nome_produto = getString();
  		   produto.setNome(Nome_produto);
 
+ 		   arquivo.open("Estoque.txt", ios::in);
+ 		   if(arquivo.is_open()){
+ 			   string linha;
+
+ 			   while(getline(arquivo, linha)){
+ 				   if(linha == Nome_produto){
+ 					   leitura++;
+ 					   arquivo.close();
+ 				   }
+ 			   }
+ 			   arquivo.close();
+ 		   }
+
+ 		  if(leitura != 0){
+ 		 	       cout << endl << "Produto já registrado!" << endl << endl;
+ 		           }
+
+ 		   else{
+
  		   cout << "Insira a categoria do produto: ";
            Nome_categoria = getString();
+
+           //DAR UM JEITO DE IR ARMAZENANDO EM VECTOR
+
+           arquivo.open("Categorias.txt", ios::in);
+           if(arquivo.is_open()){
+         	   string linha;
+
+         	   while(getline(arquivo, linha)){
+         		   if(linha == Nome_categoria){
+            		   leitura_2++;
+          			   arquivo.close();
+        		   }
+           	   }
+              arquivo.close();
+            }
+
+           if(leitura_2 == 0){
+        	   cout << endl << "Categoria não registrada!" << endl << endl;
+             }
+
+           else{
+
            categoria.setNome(Nome_categoria);
            categorias.push_back(categoria);
-
-        //cout << "Insira as categorias do produto. Quando terminar, digite 1" << endl;
-        //while(Nome_categoria != "1"){
-         //       categoria.setNome(Nome_categoria);
-          //      categorias.push_back(categoria);
-        //}
 
         		   arquivo.open("Estoque.txt", ios::out | ios::app);
 
@@ -166,7 +198,7 @@ int main(){
                    Preco = getInput<float>();
                    produto.setPreco(Preco);
 
-                   arquivo << "Nome: " << produto.getNome() << endl;
+                   arquivo << produto.getNome() << endl;
                    arquivo << "Categorias: ";
 
                    for(int i = 0; i < categorias.size(); i++){
@@ -178,8 +210,13 @@ int main(){
                    arquivo << "Tipo: " << produto.getTipo() << endl;
                    arquivo << "Quantidade: " << produto.getQuantidade() << endl;
                    arquivo << "Preço: R$ " << fixed << setprecision(2) << produto.getPreco() << endl << endl;
+                   cout << endl;
+ 		   }
+ 		   }
 
-        	break;
+ 		arquivo.close();
+
+        break;
     }
         case 4:
         {

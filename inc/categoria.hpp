@@ -12,19 +12,15 @@ using namespace std;
 //Atributos
 	private:
 	string Nome;
-	string Tipos_de_produtos;
 
 //Métodos
 
 	public:
 	Categoria();
 	Categoria(string Nome);
-	Categoria(string Nome, string Tipos_de_produtos);
 	~Categoria();
 	string getNome();
 	void setNome(string Nome);
-	string getTipos();
-	void setTipos(string Tipos_de_produtos);
 };
 
 #endif

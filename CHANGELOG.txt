@@ -1,3 +1,11 @@
+Versão 1.2
+
+-Removi o atributo "Tipo_de_Produtos" na classe Categoria
+-Removi os métodos e códigos relacionados à ao atributo removido
+-Implementei um jeito de verificar se o produto já foi registado no Modo Estoque
+-Implementei um jeito de verificar se a categoria do produto existe na hora do registo do produto no Modo Estoque
+
+-------------------------------------------------------------------------------
 Versão 1.0
 
 -Criadas as classes Categoria, Produto e Cliente, junto das implementações.
