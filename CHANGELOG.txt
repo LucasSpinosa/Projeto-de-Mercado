@@ -1,3 +1,11 @@
+Versão 1.6
+
+-Criação da classe Carrinho
+-Modificações na classe Cliente
+-Criação do Modo Venda
+-Sistema de cadastro de clientes criado, mas incompleto
+
+-----------------------------------------------------------------------------
 Versão 1.5
 
 -Código do Modo Estoque otimizado

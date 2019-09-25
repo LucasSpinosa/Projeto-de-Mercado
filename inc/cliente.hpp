@@ -3,6 +3,8 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
+#include "categoria.hpp"
 
 using namespace std;
 
@@ -11,17 +13,21 @@ class Cliente{
 
 //Atributos
 private:
+	vector <Categoria> categorias;
 	string Nome;
 	int Idade;
 	string Email;
-	long int CPF;
-	string Data_de_Cadastro;
-	string Socio;
+	string CPF;
 
 //Métodos
 public:
+
 	Cliente();
+	Cliente(string Nome, int Idade, string Email, string CPF);
 	~Cliente();
+
+	vector <Categoria> getCategoria();
+	void setCategoria (vector <Categoria> categorias);
 
 	string getNome();
 	void setNome(string Nome);
@@ -32,15 +38,8 @@ public:
 	string getEmail();
 	void setEmail(string Email);
 
-	long int getCPF();
-	void setCPF(long int CPF);
-
-	string getData_de_Cadastro();
-	void setData_de_Cadastro(string Data_de_Cadastro);
-
-	string getSocio();
-	void setSocio(string Socio);
-
+	string getCPF();
+	void setCPF(string CPF);
 };
 
 #endif

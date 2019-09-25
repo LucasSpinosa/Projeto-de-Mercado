@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <iomanip>
 #include <stdio.h>
+#include "cliente.hpp"
 
 using namespace std;
 
@@ -64,7 +65,105 @@ int main()
 
 		case 1:
 		{
+			fstream arquivo1, arquivo2, arquivo3;
+			string linhas_do_arquivo;
 
+			string Nome_cliente;
+			int Idade;
+			string Email;
+			string CPF;
+			string Socio;
+
+			int verificacao = 0;
+			int verificacao2 = 0;
+			
+			cout << "Por favor, insira o nome do cliente: ";
+			Nome_cliente = getString();
+			cout << endl;
+
+			//Abrindo o arquivo de Clientes para ver se o nome consta na lista.
+			arquivo1.open("doc/Clientes/Clientes.txt", ios::in);
+
+			//Se conseguir abrir
+			if (arquivo1.is_open()){
+				string linhas_do_arquivo;
+				while(getline(arquivo1, linhas_do_arquivo)){
+					if(linhas_do_arquivo == Nome_cliente){
+						verificacao++;
+						arquivo1.close();
+					}
+				}
+				arquivo1.close();
+			}
+
+			//Se não abrir ou se o cliente não consta no banco de dados
+			if(verificacao == 0){
+
+				//Adicionando cliente no banco de dados de clientes
+				arquivo1.open("doc/Clientes/Clientes.txt", ios:: out | ios::app);
+				arquivo1 << Nome_cliente << endl;
+				arquivo1.close();
+
+				cout << "Cliente não encontrado! Realizando cadastro..." << endl << endl;
+
+				cout << "Informe a idade do cliente: ";
+				Idade = getInput <int> ();
+
+				cout << "Informe o email do cliente: ";
+				Email = getString();
+
+				cout << "Informe o CPF do cliente (somente números): ";
+				CPF = getString();
+				
+				cout << endl << "O cliente deseja se tornar sócio?" << endl;
+				cout << "Responda Sim ou Não: ";
+				Socio = getString();
+
+				Cliente cliente (Nome_cliente, Idade, Email, CPF);
+
+				//Adicionando cliente no banco de dados de sócios se ele quiser ser sócio
+				if(Socio == "Sim"){
+				arquivo2.open("doc/Clientes/Sócios.txt", ios::out | ios::app);
+				arquivo2 << cliente.getNome() << endl;
+				arquivo2.close();
+				}
+
+				//Criando arquivo do cliente
+				arquivo3.open("doc/Clientes/" + cliente.getNome() + ".txt", ios::out | ios::app);
+				arquivo3 << cliente.getNome() << endl;
+				arquivo3 << cliente.getIdade() << endl;
+				arquivo3 << cliente.getEmail() << endl;
+				arquivo3 << cliente.getCPF() << endl;
+				arquivo3.close();
+			}
+
+			//Se abrir
+			//Verificando se o cliente é sócio
+			else if(verificacao != 0){
+				arquivo1.open("doc/Clientes/Clientes.txt", ios::in);
+				if (arquivo1.is_open()){
+				string linhas_do_arquivo;
+				while(getline(arquivo1, linhas_do_arquivo)){
+					if(linhas_do_arquivo == Nome_cliente){
+						verificacao2++;
+						arquivo1.close();
+					}
+				}
+				arquivo1.close();
+			}
+			if(verificacao2 == 0){
+					cout << "Esse cliente não é sócio. Ele deseja se tornar um?" << endl;
+					cout << "Responda Sim ou Não: ";
+					Socio = getString();
+
+					if(Socio == "Sim"){
+						arquivo1.open("doc/Clientes/Sócios.txt", ios::out | ios::app);
+						arquivo1 << Nome_cliente << endl;
+						arquivo1.close();
+					}
+				}
+			}
+	
 			break;
 		}
 
@@ -106,7 +205,7 @@ int main()
 					cout << "Nome da categoria: ";
 					Nome_categoria = getString();
 
-					arquivo.open("doc/Categorias.txt", ios::in);
+					arquivo.open("doc/Estoque/Categorias.txt", ios::in);
 					if (arquivo.is_open())
 					{
 						string linha;
@@ -131,7 +230,7 @@ int main()
 
 					else
 					{
-						arquivo.open("doc/Categorias.txt", ios::out | ios::app);
+						arquivo.open("doc/Estoque/Categorias.txt", ios::out | ios::app);
 
 						Categoria categoria(Nome_categoria);
 
@@ -147,7 +246,7 @@ int main()
 
 				case 2:
 				{
-					arquivo.open("doc/Categorias.txt", ios::in);
+					arquivo.open("doc/Estoque/Categorias.txt", ios::in);
 
 					if (arquivo.is_open())
 					{
@@ -195,7 +294,7 @@ int main()
 					Nome_produto = getString();
 					produto.setNome(Nome_produto);
 
-					arquivo.open("doc/Estoque.txt", ios::in);
+					arquivo.open("doc/Estoque/Estoque.txt", ios::in);
 					if (arquivo.is_open())
 					{
 						string linha;
@@ -232,7 +331,7 @@ int main()
 							cout << "Insira a categoria: ";
 							Nome_categoria = getString();
 
-							arquivo.open("doc/Categorias.txt", ios::in);
+							arquivo.open("doc/Estoque/Categorias.txt", ios::in);
 							if (arquivo.is_open())
 							{
 								string linha;
@@ -253,16 +352,17 @@ int main()
 								cout << endl
 									 << "Categoria não registrada!" << endl
 									 << endl;
+									 break;
 							}
 
-							else
+							else if (leitura_2 != 0)
 							{
 
 								categoria.setNome(Nome_categoria);
 								categorias.push_back(categoria);
 							}
 						}
-						arquivo.open("doc/Estoque.txt", ios::out | ios::app);
+						arquivo.open("doc/Estoque/Estoque.txt", ios::out | ios::app);
 
 						produto.setCategoria(categorias);
 
@@ -304,7 +404,7 @@ int main()
 
 				case 4:
 				{
-					arquivo.open("doc/Estoque.txt", ios::in);
+					arquivo.open("doc/Estoque/Estoque.txt", ios::in);
 
 					cout << "Produtos registrados" << endl
 						 << endl;
@@ -342,7 +442,7 @@ int main()
 					int posicao = 0;
 					int contador = 0;
 
-					arquivo.open("doc/Estoque.txt", ios::in);
+					arquivo.open("doc/Estoque/Estoque.txt", ios::in);
 					if (arquivo.is_open())
 					{
 						arquivo.close();
@@ -358,7 +458,7 @@ int main()
 					cout << "Insira o nome do produto: ";
 					Nome_produto = getString();
 
-					arquivo.open("doc/Estoque.txt", ios::in);
+					arquivo.open("doc/Estoque/Estoque.txt", ios::in);
 					if (arquivo.is_open())
 					{
 						string linha;
@@ -388,8 +488,8 @@ int main()
 
 					fstream arquivo2;
 
-					arquivo.open("doc/Estoque.txt", ios::in);
-					arquivo2.open("doc/Temporario.txt", ios::out);
+					arquivo.open("doc/Estoque/Estoque.txt", ios::in);
+					arquivo2.open("doc/Estoque/Temporario.txt", ios::out);
 
 					string linha_lida;
 
@@ -405,8 +505,8 @@ int main()
 					arquivo.close();
 					arquivo2.close();
 
-					remove("doc/Estoque.txt");
-					rename("doc/Temporario.txt", "doc/Estoque.txt");
+					remove("doc/Estoque/Estoque.txt");
+					rename("doc/Estoque/Temporario.txt", "doc/Estoque/Estoque.txt");
 
 					cout << endl;
 
