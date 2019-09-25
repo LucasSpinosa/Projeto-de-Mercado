@@ -118,6 +118,7 @@ int main()
 				cout << endl << "O cliente deseja se tornar sócio?" << endl;
 				cout << "Responda Sim ou Não: ";
 				Socio = getString();
+				cout << endl;
 
 				Cliente cliente (Nome_cliente, Idade, Email, CPF);
 
@@ -140,7 +141,7 @@ int main()
 			//Se abrir
 			//Verificando se o cliente é sócio
 			else if(verificacao != 0){
-				arquivo1.open("doc/Clientes/Clientes.txt", ios::in);
+				arquivo1.open("doc/Clientes/Sócios.txt", ios::in);
 				if (arquivo1.is_open()){
 				string linhas_do_arquivo;
 				while(getline(arquivo1, linhas_do_arquivo)){
@@ -155,6 +156,8 @@ int main()
 					cout << "Esse cliente não é sócio. Ele deseja se tornar um?" << endl;
 					cout << "Responda Sim ou Não: ";
 					Socio = getString();
+
+					cout << endl;
 
 					if(Socio == "Sim"){
 						arquivo1.open("doc/Clientes/Sócios.txt", ios::out | ios::app);
