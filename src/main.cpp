@@ -39,6 +39,9 @@ T1 getInput()
 	}
 }
 
+void Estoque();
+void Venda();
+
 int main()
 {
 
@@ -65,7 +68,36 @@ int main()
 
 		case 1:
 		{
-			fstream arquivo1, arquivo2, arquivo3;
+			Venda();
+			break;
+		}
+
+		case 2:
+		{
+
+			break;
+		}
+		case 3:
+		{
+			Estoque();
+			break;
+		}
+
+		case 0:
+			break;
+
+		default:
+			cout << "Opção inválida!" << endl
+				 << endl;
+		}
+	}
+
+	return 0;
+}
+
+//Função do modo Venda
+void Venda(){
+fstream arquivo1, arquivo2, arquivo3;
 			string linhas_do_arquivo;
 
 			string Nome_cliente;
@@ -166,19 +198,12 @@ int main()
 					}
 				}
 			}
-	
-			break;
-		}
+}	
 
-		case 2:
-		{
 
-			break;
-		}
-		case 3:
-		{
-
-			fstream arquivo;
+//Função do modo Estoque
+void Estoque(){
+		fstream arquivo, arquivo2;
 
 			int opcao_venda = -1;
 
@@ -189,10 +214,10 @@ int main()
 				cout << "(1) = Registrar categoria" << endl;
 				cout << "(2) = Listar categorias" << endl;
 				cout << "(3) = Registrar produtos" << endl;
-				cout << "(4) = Listar produtos" << endl;
-				cout << "(5) = Editar quantidade de um produto" << endl;
-				cout << "(0) = Sair" << endl
-					 << endl;
+				cout << "(4) = Listar produtos" << endl; 
+				cout << "(5) = Editar quantidade de um produto" << endl; 
+				cout << "(6) = Editar preço de um produto" << endl; 
+				cout << "(0) = Sair" << endl << endl;
 
 				cout << "Insira sua opção: ";
 				opcao_venda = getInput<int>();
@@ -285,13 +310,13 @@ int main()
 					Categoria categoria;
 					string Nome_categoria;
 					string Nome_produto;
-					string Tipo_produto;
 					int Quantidade_produto;
 					int Quantidade_categorias;
 					float Preco;
 
 					int leitura = 0;
 					int leitura_2 = 0;
+					int leitura_3 = 0;
 
 					cout << "Insira o nome do produto: ";
 					Nome_produto = getString();
@@ -352,8 +377,9 @@ int main()
 
 							if (leitura_2 == 0)
 							{
+								leitura_3++;
 								cout << endl
-									 << "Categoria não registrada!" << endl
+									 << "Categoria não registrada! Registre ela primeiro e tente novamente!" << endl
 									 << endl;
 									 break;
 							}
@@ -365,43 +391,42 @@ int main()
 								categorias.push_back(categoria);
 							}
 						}
-						arquivo.open("doc/Estoque/Estoque.txt", ios::out | ios::app);
+						
+						if(leitura_3 != 0){
+							break;
+						}
 
+						else if (leitura_3 == 0){
 						produto.setCategoria(categorias);
+
+						arquivo.open("doc/Estoque/Estoque.txt", ios::out | ios::app);
+						arquivo << produto.getNome() << endl;
+						arquivo.close();
 
 						cout << endl;
 
-						cout << "Insira o tipo do produto: ";
-						Tipo_produto = getString();
-						produto.setTipo(Tipo_produto);
+						arquivo.open("doc/Estoque/" + produto.getNome() + ".txt", ios::out | ios::app);
 
 						cout << "Insira a quantidade do produto: ";
 						Quantidade_produto = getInput<int>();
 						produto.setQuantidade(Quantidade_produto);
+						arquivo << produto.getQuantidade() << endl;
 
 						cout << "Insira o preço do produto: ";
 						Preco = getInput<float>();
 						produto.setPreco(Preco);
-
-						arquivo << produto.getNome() << endl;
-						arquivo << "Categorias: ";
+						arquivo << fixed << setprecision(2) << produto.getPreco() << endl;
 
 						for (int i = 0; i < categorias.size(); i++)
 						{
-							arquivo << categorias[i].getNome() << " ";
+							arquivo << categorias[i].getNome() << endl;
 						}
 
-						arquivo << endl;
-
-						arquivo << "Tipo: " << produto.getTipo() << endl;
-						arquivo << "Quantidade de " << produto.getNome() << ": " << produto.getQuantidade() << endl;
-						arquivo << "Preço: R$ " << fixed << setprecision(2) << produto.getPreco() << endl
-								<< endl;
 						cout << endl;
 					}
 
 					arquivo.close();
-
+				}
 					break;
 				}
 
@@ -414,12 +439,29 @@ int main()
 
 					if (arquivo.is_open())
 					{
-						string linha;
+						string linha_estoque;
+						string linha_produto;
+						vector <string> linhas_lidas;
 
-						cout << "--------------------------------------------------------" << endl;
-						while (getline(arquivo, linha))
+						cout << "-------------------------------------------------------------" << endl;
+						while (getline(arquivo, linha_estoque))
 						{
-							cout << linha << endl;
+							cout << linha_estoque << endl;
+							arquivo2.open("doc/Estoque/" + linha_estoque + ".txt", ios::in);
+
+							for(int i = 0; i <= 1; i++){
+								getline(arquivo2, linha_produto);
+								if (i == 0)
+								{
+									cout << "Quantidade de " + linha_estoque + ": " + linha_produto << endl;
+								}
+
+								if(i == 1){
+									cout << "Preço: R$ " + linha_produto << endl << endl;
+								}	
+							}
+
+							arquivo2.close();
 						}
 						cout << "-------------------------------------------------------------" << endl
 							 << endl;
@@ -442,8 +484,6 @@ int main()
 					string Nome_produto;
 					int Quantidade;
 					int leitura = 0;
-					int posicao = 0;
-					int contador = 0;
 
 					arquivo.open("doc/Estoque/Estoque.txt", ios::in);
 					if (arquivo.is_open())
@@ -461,19 +501,14 @@ int main()
 					cout << "Insira o nome do produto: ";
 					Nome_produto = getString();
 
-					arquivo.open("doc/Estoque/Estoque.txt", ios::in);
+					arquivo.open("doc/Estoque/"+ Nome_produto + ".txt", ios::in);
 					if (arquivo.is_open())
 					{
+						leitura++;
 						string linha;
 						while (getline(arquivo, linha))
 						{
 							linhas.push_back(linha);
-							contador++;
-							if (linha == Nome_produto)
-							{
-								posicao = contador;
-								leitura++;
-							}
 						}
 						arquivo.close();
 					}
@@ -489,27 +524,83 @@ int main()
 					cout << "Informe a quantidade nova do produto: ";
 					Quantidade = getInput<int>();
 
-					fstream arquivo2;
+					arquivo.open("doc/Estoque/"+ Nome_produto + ".txt", ios::out);
+					
+					for(int i = 0; i < linhas.size(); i++){
+						if(i == 0){
+							arquivo << to_string(Quantidade) << endl;
+						}
+						else{
+							arquivo << linhas[i] << endl;
+						}
+					}
+
+					arquivo.close();
+
+					cout << endl;
+
+					break;
+				}
+
+			case 6:
+				{
+
+					vector<string> linhas;
+					string Nome_produto;
+					float Preco_novo;
+					int leitura = 0;
 
 					arquivo.open("doc/Estoque/Estoque.txt", ios::in);
-					arquivo2.open("doc/Estoque/Temporario.txt", ios::out);
-
-					string linha_lida;
-
-					for (int i = 0; i < linhas.size(); i++)
+					if (arquivo.is_open())
 					{
-						if (i == (posicao + 2))
-						{
-							linhas[i] = "Quantidade de " + Nome_produto + ": " + to_string(Quantidade);
-						}
-						linhas[i] += '\n';
-						arquivo2 << linhas[i];
+						arquivo.close();
 					}
-					arquivo.close();
-					arquivo2.close();
 
-					remove("doc/Estoque/Estoque.txt");
-					rename("doc/Estoque/Temporario.txt", "doc/Estoque/Estoque.txt");
+					else
+					{
+						cout << "Não foi possível abrir o arquivo. Registre um produto e tente novamente!" << endl
+							 << endl;
+						break;
+					}
+
+					cout << "Insira o nome do produto: ";
+					Nome_produto = getString();
+
+					arquivo.open("doc/Estoque/"+ Nome_produto + ".txt", ios::in);
+					if (arquivo.is_open())
+					{
+						leitura++;
+						string linha;
+						while (getline(arquivo, linha))
+						{
+							linhas.push_back(linha);
+						}
+						arquivo.close();
+					}
+
+					if (leitura == 0)
+					{
+						cout << endl
+							 << "Produto não registrado!" << endl
+							 << endl;
+						break;
+					}
+
+					cout << "Informe o preço novo do produto: ";
+					Preco_novo = getInput<float>();
+
+					arquivo.open("doc/Estoque/"+ Nome_produto + ".txt", ios::out);
+					
+					for(int i = 0; i < linhas.size(); i++){
+						if(i == 1){
+							arquivo << fixed << setprecision(2) << Preco_novo << endl;
+						}
+						else{
+							arquivo << linhas[i] << endl;
+						}
+					}
+
+					arquivo.close();
 
 					cout << endl;
 
@@ -526,16 +617,3 @@ int main()
 				}
 			}
 		}
-		break;
-
-		case 0:
-			break;
-
-		default:
-			cout << "Opção inválida!" << endl
-				 << endl;
-		}
-	}
-
-	return 0;
-}

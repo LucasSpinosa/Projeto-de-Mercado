@@ -6,14 +6,12 @@ using namespace std;
 
 Produto::Produto(){
 	setNome("");
-	setTipo("");
 	setQuantidade(0);
 	setPreco(0.0f);
 }
 
-Produto::Produto(vector<Categoria> categorias, string Tipo, string Nome, int Quantidade, float Preco){
+Produto::Produto(vector<Categoria> categorias, string Nome, int Quantidade, float Preco){
 	setCategoria(categorias);
-	setTipo(Tipo);
 	setNome(Nome);
 	setQuantidade(Quantidade);
 	setPreco(Preco);
@@ -29,14 +27,6 @@ vector <Categoria> Produto::getCategoria(){
 
 void Produto::setCategoria (vector <Categoria> categorias){
 	this->categorias = categorias;
-}
-
-string Produto::getTipo(){
-	return Tipo;
-}
-
-void Produto::setTipo(string Tipo){
-	this->Tipo = Tipo;
 }
 
 string Produto::getNome(){

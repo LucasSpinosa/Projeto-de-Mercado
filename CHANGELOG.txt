@@ -1,3 +1,14 @@
+Versão 1.8
+
+-Retirei Tipo de Produtos
+-Passe o modo estoque para a função Estoque();
+-Corrigi um bug no modo estoque: criação de produtos mesmo se a categoria não existe.
+-Agora o arquivo Estoque.txt só contém o nome dos produtos
+-Cada produto tem um arquivo próprio, contendo os seguintes dados: quantidade, preço e categorias.
+-A opção de listar produtos no modo estoque foi modificada.
+-Criada a opção de editar preços no modo estoque.
+
+----------------------------------------------------------------------------
 Versão 1.7
 
 -Sistema de cadastro de clientes corrigido
