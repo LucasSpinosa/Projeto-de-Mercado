@@ -9,25 +9,10 @@ Cliente::Cliente(){
 	setIdade(0);
 	setEmail("");
 	setCPF("");
+	setSocio("");
 }
-
-Cliente::Cliente(string Nome, int Idade, string Email, string CPF){
-	setNome(Nome);
-	setIdade(Idade);
-	setEmail(Email);
-	setCPF(CPF);
-}
-
 
 Cliente::~Cliente(){
-}
-
-vector <Categoria> Cliente::getCategoria(){
-	return categorias;
-   }
-
-void Cliente::setCategoria (vector <Categoria> categorias){
-	this->categorias = categorias;
 }
 
 string Cliente::getNome(){
@@ -46,6 +31,14 @@ void Cliente::setIdade(int Idade){
 	this->Idade = Idade;
 }
 
+string Cliente::getTelefone(){
+	return Telefone;
+}
+
+void Cliente::setTelefone(string Telefone){
+	this->Telefone = Telefone;
+}
+
 string Cliente::getEmail(){
 	return Email;
 }
@@ -60,4 +53,12 @@ string Cliente::getCPF(){
 
 void Cliente::setCPF(string CPF){
 	this->CPF = CPF;
+}
+
+string Cliente::getSocio(){
+	return Socio;
+}
+
+void Cliente::setSocio(string Socio){
+	this->Socio = Socio;
 }

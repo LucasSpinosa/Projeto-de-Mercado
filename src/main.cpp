@@ -97,120 +97,271 @@ int main()
 
 //Função do modo Venda
 void Venda(){
-fstream arquivo1, arquivo2, arquivo3;
-			string linhas_do_arquivo;
 
-			string Nome_cliente;
-			int Idade;
-			string Email;
-			string CPF;
-			string Socio;
-
-			int verificacao = 0;
-			int verificacao2 = 0;
-			
-			cout << "Por favor, insira o nome do cliente: ";
-			Nome_cliente = getString();
-			cout << endl;
-
-			//Abrindo o arquivo de Clientes para ver se o nome consta na lista.
-			arquivo1.open("doc/Clientes/Clientes.txt", ios::in);
-
-			//Se conseguir abrir
-			if (arquivo1.is_open()){
-				string linhas_do_arquivo;
-				while(getline(arquivo1, linhas_do_arquivo)){
-					if(linhas_do_arquivo == Nome_cliente){
-						verificacao++;
-						arquivo1.close();
-					}
-				}
-				arquivo1.close();
-			}
-
-			//Se não abrir ou se o cliente não consta no banco de dados
-			if(verificacao == 0){
-
-				//Adicionando cliente no banco de dados de clientes
-				arquivo1.open("doc/Clientes/Clientes.txt", ios:: out | ios::app);
-				arquivo1 << Nome_cliente << endl;
-				arquivo1.close();
-
-				cout << "Cliente não encontrado! Realizando cadastro..." << endl << endl;
-
-				cout << "Informe a idade do cliente: ";
-				Idade = getInput <int> ();
-
-				cout << "Informe o email do cliente: ";
-				Email = getString();
-
-				cout << "Informe o CPF do cliente (somente números): ";
-				CPF = getString();
-				
-				cout << endl << "O cliente deseja se tornar sócio?" << endl;
-				cout << "Responda Sim ou Não: ";
-				Socio = getString();
-				cout << endl;
-
-				Cliente cliente (Nome_cliente, Idade, Email, CPF);
-
-				//Adicionando cliente no banco de dados de sócios se ele quiser ser sócio
-				if(Socio == "Sim"){
-				arquivo2.open("doc/Clientes/Sócios.txt", ios::out | ios::app);
-				arquivo2 << cliente.getNome() << endl;
-				arquivo2.close();
-				}
-
-				//Criando arquivo do cliente
-				arquivo3.open("doc/Clientes/" + cliente.getNome() + ".txt", ios::out | ios::app);
-				arquivo3 << cliente.getNome() << endl;
-				arquivo3 << cliente.getIdade() << endl;
-				arquivo3 << cliente.getEmail() << endl;
-				arquivo3 << cliente.getCPF() << endl;
-				arquivo3.close();
-			}
-
-			//Se abrir
-			//Verificando se o cliente é sócio
-			else if(verificacao != 0){
-				arquivo1.open("doc/Clientes/Sócios.txt", ios::in);
-				if (arquivo1.is_open()){
-				string linhas_do_arquivo;
-				while(getline(arquivo1, linhas_do_arquivo)){
-					if(linhas_do_arquivo == Nome_cliente){
-						verificacao2++;
-						arquivo1.close();
-					}
-				}
-				arquivo1.close();
-			}
-			if(verificacao2 == 0){
-					cout << "Esse cliente não é sócio. Ele deseja se tornar um?" << endl;
-					cout << "Responda Sim ou Não: ";
-					Socio = getString();
-
-					cout << endl;
-
-					if(Socio == "Sim"){
-						arquivo1.open("doc/Clientes/Sócios.txt", ios::out | ios::app);
-						arquivo1 << Nome_cliente << endl;
-						arquivo1.close();
-					}
-				}
-			}
-}	
-
-
-//Função do modo Estoque
-void Estoque(){
-		fstream arquivo, arquivo2;
+fstream arquivo;
 
 			int opcao_venda = -1;
 
 			while (opcao_venda != 0)
 			{
-				cout << "Modo Venda - Opções" << endl
-					 << endl;
+				cout << "Modo Venda - Opções" << endl << endl;
+				cout << "(1) = Listar clientes" << endl;
+				cout << "(2) = Visualizar dados de um cliente" << endl;
+				cout << "(3) = Realizar venda" << endl;
+				cout << "(0) = Sair" << endl << endl;
+
+				cout << "Insira sua opção: ";
+				opcao_venda = getInput<int>();
+				cout << endl;
+
+				switch (opcao_venda)
+				{
+				case 1:
+				{
+					arquivo.open("doc/Clientes/Clientes.txt", ios::in);
+
+					if (arquivo.is_open())
+					{
+						string linha;
+						
+						cout << "--------------------------------------------------------" << endl;
+						while (getline(arquivo, linha))
+						{
+							cout << linha << endl;
+						}
+						cout << "-------------------------------------------------------------" << endl << endl;
+
+						arquivo.close();
+					}
+
+					else
+					{
+					cout << endl << "Não há clientes registrados. Não foi possível abrir o arquivo" << endl << endl;
+					}
+
+					break;
+				}
+
+				case 2:
+				{
+					string Nome_cliente;
+
+					cout << "Insira o nome do cliente: ";
+					Nome_cliente = getString();
+
+					cout << endl;
+
+					arquivo.open("doc/Clientes/" + Nome_cliente + ".txt");
+					if (arquivo.is_open())
+					{			
+						string linhas_lidas;
+						for (int i = 0; i < 6; i++)
+						{
+							getline(arquivo, linhas_lidas);
+							if(i == 0){
+								cout << "Nome: " + linhas_lidas << endl;
+							}
+
+							if(i == 1){
+								cout << "Idade: " + linhas_lidas << endl;
+							}
+
+							if(i == 2){
+								cout << "Telefone: " + linhas_lidas << endl;
+							}
+
+							if(i == 3){
+								cout << "Email: " + linhas_lidas << endl;
+							}
+
+							if(i == 4){
+								cout << "CPF: " + linhas_lidas << endl;
+							}
+
+							if(i == 5){
+								cout << "Sócio: " + linhas_lidas << endl << endl;
+							}
+						}
+						arquivo.close();
+					}
+
+					else
+					{
+					cout << "Não foi possível exibir os dados do cliente, pois ele não está cadastrado." << endl << endl;
+					}
+
+					break;
+				}
+
+				case 3:
+				{
+
+					string linhas_do_arquivo;
+
+					//Dados do Cliente
+					string Nome_cliente;
+					int Idade;
+					string Telefone;
+					string Email;
+					string CPF;
+					string Socio = "Exemplo";
+
+					int verificacao = 0;
+					int verificacao_2 = 0;
+
+					cout << "Por favor, insira o nome do cliente: ";
+					Nome_cliente = getString();
+					cout << endl;
+
+					arquivo.open("doc/Clientes/Clientes.txt", ios::in);
+					if (arquivo.is_open())
+					{
+						string linha;
+
+						while (getline(arquivo, linha))
+						{
+							if (linha == Nome_cliente)
+							{
+								verificacao++;
+								arquivo.close();
+							}
+						}
+						arquivo.close();
+					}
+
+					if (verificacao == 0)
+					{
+					arquivo.open("doc/Clientes/Clientes.txt", ios:: out | ios::app);
+					arquivo << Nome_cliente << endl;
+					arquivo.close();
+
+					cout << "Cliente não encontrado. Realizando cadastrado." << endl << endl;
+
+					cout << "Informe a idade do cliente: ";
+					Idade = getInput <int> ();
+
+					cout << "Informe o telefone do cliente: ";
+					Telefone = getString();
+
+					cout << "Informe o email do cliente: ";
+					Email = getString();
+
+					cout << "Informe o CPF do cliente: ";
+					CPF = getString();
+
+					cout << "O cliente deseja se tornar sócio?" << endl;
+					cout << "Responda com Sim ou Não: ";
+					Socio = getString();
+					
+					cout << endl;
+					
+					Cliente cliente;
+
+					arquivo.open("doc/Clientes/" + Nome_cliente + ".txt", ios::out);
+					arquivo << cliente.getNome() << endl;
+					arquivo << cliente.getIdade() << endl;
+					arquivo << cliente.getTelefone() << endl;
+					arquivo << cliente.getEmail() << endl;
+					arquivo << cliente.getCPF() << endl;
+					arquivo << cliente.getSocio() << endl;
+					}
+
+					else if (verificacao == 1){
+						arquivo.open("doc/Clientes" + Nome_cliente + ".txt", ios::in);
+						
+						Cliente cliente;
+
+						string linhas_lidas;
+
+						for(int i = 0; i < 6; i++){
+							getline(arquivo, linhas_lidas);
+							if (i == 0){
+								cliente.setNome(linhas_lidas);
+								cout << i << ": " << linhas_lidas;
+							}
+
+							if(i == 1){
+								cliente.setIdade(0);
+								cout << i << ": " << linhas_lidas;
+							}
+
+							if(i == 2){
+								cliente.setTelefone(linhas_lidas);
+								cout << i << ": " << linhas_lidas;
+							}
+
+							if(i == 3){
+								cliente.setEmail(linhas_lidas);
+								cout << i << ": " << linhas_lidas;
+							}
+
+							if(i == 4){
+								cliente.setCPF(linhas_lidas);
+								cout << i << ": " << linhas_lidas;
+							}
+
+							if(i == 5){
+								cliente.setSocio(linhas_lidas);
+								if(linhas_do_arquivo == "Não"){
+									verificacao_2++;
+								}
+								cout << i << ": " << linhas_lidas;
+							}
+						}
+						arquivo.close();
+						
+						if(verificacao_2 != 0){
+							cout << "Esse cliente não é sócio. Ele deseja se tornar um?" << endl;
+							cout << "Responda Sim ou Não: ";
+							
+							Socio = getString();
+						
+							cout << endl;
+
+						if(Socio == "Sim"){
+							cliente.setSocio("Sim");
+							
+							vector <string> linhas;
+							arquivo.open("doc/Clientes" + Nome_cliente + ".txt", ios::in);
+
+						while(getline(arquivo, linhas_do_arquivo)){
+							linhas.push_back(linhas_do_arquivo);
+						}
+						arquivo.close();
+
+						arquivo.open("doc/Clientes" + Nome_cliente + ".txt", ios::out);
+						
+						for(int i = 0; i < linhas.size(); i++){
+							if(i == 5){
+								linhas[i] = "Sim";
+							}
+							arquivo << linhas[i];
+						}
+						}
+					}
+				}
+					break;
+				}
+				
+				case 0:
+					break;
+
+				default:
+					cout << "Opção inválida!" << endl << endl;
+					break;
+				}
+			}
+		}
+
+//Função do modo Estoque
+void Estoque(){
+		fstream arquivo, arquivo2;
+
+			int opcao_estoque = -1;
+
+			while (opcao_estoque != 0)
+			{
+				cout << "Modo Estoque - Opções" << endl << endl;
 				cout << "(1) = Registrar categoria" << endl;
 				cout << "(2) = Listar categorias" << endl;
 				cout << "(3) = Registrar produtos" << endl;
@@ -220,10 +371,10 @@ void Estoque(){
 				cout << "(0) = Sair" << endl << endl;
 
 				cout << "Insira sua opção: ";
-				opcao_venda = getInput<int>();
+				opcao_estoque = getInput<int>();
 				cout << endl;
 
-				switch (opcao_venda)
+				switch (opcao_estoque)
 				{
 				case 1:
 				{
