@@ -1,5 +1,6 @@
 #include "carrinho.hpp"
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -14,6 +15,9 @@ Carrinho::Carrinho(vector <Produto> produtos, float ValorVenda, float ValorDesco
 	setValorVenda(ValorVenda);
 	setValorDesconto(ValorDesconto);
 	setValorFinal(ValorFinal);
+}
+
+Carrinho::~Carrinho(){
 }
 
 vector <Produto> Carrinho::getProdutos(){
@@ -46,4 +50,10 @@ float Carrinho::getValorFinal(){
 
 void Carrinho::setValorFinal(float ValorFinal){
 	this->ValorFinal = ValorFinal;
+}
+
+void Carrinho::imprime_dados(){
+	cout << "Valor total das compras: R$ " << fixed << setprecision(2) << getValorVenda() << endl;
+	cout << "Valor do desconto: R$ " << fixed << setprecision(2) << getValorDesconto() << endl;
+	cout << "Valor total da compra: R$ " << fixed << setprecision(2) << getValorFinal() << endl << endl;
 }

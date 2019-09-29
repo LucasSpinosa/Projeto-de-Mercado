@@ -3,8 +3,16 @@ Versão 1.9
 -Retirada dos atributos e métodos de Categorias na classe Cliente 
 -Criação do menu no Modo Venda 
 -Criação de novas funcionalidades no Modo Venda
+
+°Listar Clientes
+°Exibir dados de um cliente
+°Remover sócio
+°Tornar sócio
+
 -Criação dos atributos Telefone e Socio na classe Cliente
 -Criação de sobrecarga na classe Cliente.
+-Criação da função "Imprime dados" na classe Carrinho.
+-Modo Venda implementado
 
 ----------------------------------------------------------------------------
 Versão 1.8

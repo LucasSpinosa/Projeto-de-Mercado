@@ -9,12 +9,15 @@
 class Carrinho{
 
 //Atributos
+private:
 vector <Produto> produtos;
 float ValorVenda;
 float ValorDesconto;
 float ValorFinal;
 
+
 //Métodos Construtores e Destrutores
+public:
 Carrinho();
 Carrinho(vector <Produto> produtos, float ValorVenda, float ValorDesconto, float ValorFinal);
 ~Carrinho();
@@ -31,6 +34,8 @@ void setValorDesconto(float ValorDesconto);
 
 float getValorFinal();
 void setValorFinal(float ValorFinal);
+
+void imprime_dados();
 };
 
 

@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <stdio.h>
 #include "cliente.hpp"
+#include "carrinho.hpp"
 
 using namespace std;
 
@@ -107,7 +108,9 @@ fstream arquivo;
 				cout << "Modo Venda - Opções" << endl << endl;
 				cout << "(1) = Listar clientes" << endl;
 				cout << "(2) = Visualizar dados de um cliente" << endl;
-				cout << "(3) = Realizar venda" << endl;
+				cout << "(3) = Remover sócio" << endl;
+				cout << "(4) = Tornar sócio" << endl;
+				cout << "(5) = Realizar venda" << endl;
 				cout << "(0) = Sair" << endl << endl;
 
 				cout << "Insira sua opção: ";
@@ -151,7 +154,7 @@ fstream arquivo;
 
 					cout << endl;
 
-					arquivo.open("doc/Clientes/" + Nome_cliente + ".txt");
+					arquivo.open("doc/Clientes/" + Nome_cliente + ".txt", ios::in);
 					if (arquivo.is_open())
 					{			
 						string linhas_lidas;
@@ -195,10 +198,122 @@ fstream arquivo;
 
 				case 3:
 				{
+					string Nome_cliente;
+
+					string linhas_arquivo;
+					int verificacao = 0;
+
+					cout << "Informe o nome do cliente: ";
+					Nome_cliente = getString();
+					cout << endl;
+
+					arquivo.open("doc/Clientes/Clientes.txt", ios::in);
+
+					if(arquivo.is_open()){
+						while (getline(arquivo, linhas_arquivo))
+						{
+							if(linhas_arquivo == Nome_cliente){
+								verificacao++;
+							}
+						}
+						arquivo.close();
+					}
+
+					else{
+						cout << "Não foi possível abrir o arquivo." << endl;
+					}
+
+					if(verificacao == 1){
+						vector <string> linhas;
+
+						arquivo.open("doc/Clientes/" + Nome_cliente + ".txt", ios::in);
+
+						while (getline(arquivo, linhas_arquivo))
+						{
+							linhas.push_back(linhas_arquivo);
+						}
+						arquivo.close();
+
+						arquivo.open("doc/Clientes/" + Nome_cliente + ".txt", ios::out);
+
+						for(int i = 0; i < linhas.size(); i++){
+							if(i == 5){
+								linhas[i] = "Não";
+							}
+							arquivo << linhas[i] << endl;
+						}
+					}
+
+					if(verificacao == 0){
+						cout << "Esse cliente não está registrado!" << endl;
+					}
+
+					break;
+				}
+
+				case 4:
+				{
+
+					string Nome_cliente;
+
+					string linhas_arquivo;
+					int verificacao = 0;
+
+					cout << "Informe o nome do cliente: ";
+					Nome_cliente = getString();
+					cout << endl;
+
+					arquivo.open("doc/Clientes/Clientes.txt", ios::in);
+
+					if(arquivo.is_open()){
+						while (getline(arquivo, linhas_arquivo))
+						{
+							if(linhas_arquivo == Nome_cliente){
+								verificacao++;
+							}
+						}
+						arquivo.close();
+					}
+
+					else{
+						cout << "Não foi possível abrir o arquivo." << endl;
+					}
+
+					if(verificacao == 1){
+						vector <string> linhas;
+
+						arquivo.open("doc/Clientes/" + Nome_cliente + ".txt", ios::in);
+
+						while (getline(arquivo, linhas_arquivo))
+						{
+							linhas.push_back(linhas_arquivo);
+						}
+						arquivo.close();
+
+						arquivo.open("doc/Clientes/" + Nome_cliente + ".txt", ios::out);
+
+						for(int i = 0; i < linhas.size(); i++){
+							if(i == 5){
+								linhas[i] = "Sim";
+							}
+							arquivo << linhas[i] << endl;
+						}
+					}
+
+					if(verificacao == 0){
+						cout << "Esse cliente não está registrado!" << endl;
+					}
+
+					break;
+				}
+
+				case 5:
+				{
 
 					string linhas_do_arquivo;
 
 					//Dados do Cliente
+					Cliente cliente;
 					string Nome_cliente;
 					int Idade;
 					string Telefone;
@@ -207,7 +322,6 @@ fstream arquivo;
 					string Socio = "Exemplo";
 
 					int verificacao = 0;
-					int verificacao_2 = 0;
 
 					cout << "Por favor, insira o nome do cliente: ";
 					Nome_cliente = getString();
@@ -218,9 +332,9 @@ fstream arquivo;
 					{
 						string linha;
 
-						while (getline(arquivo, linha))
+						while (getline(arquivo, linhas_do_arquivo))
 						{
-							if (linha == Nome_cliente)
+							if (linhas_do_arquivo == Nome_cliente)
 							{
 								verificacao++;
 								arquivo.close();
@@ -255,7 +369,12 @@ fstream arquivo;
 					
 					cout << endl;
 					
-					Cliente cliente;
+					cliente.setNome(Nome_cliente);
+					cliente.setIdade(Idade);
+					cliente.setTelefone(Telefone);
+					cliente.setEmail(Email);
+					cliente.setCPF(CPF);
+					cliente.setSocio(Socio);
 
 					arquivo.open("doc/Clientes/" + Nome_cliente + ".txt", ios::out);
 					arquivo << cliente.getNome() << endl;
@@ -264,82 +383,206 @@ fstream arquivo;
 					arquivo << cliente.getEmail() << endl;
 					arquivo << cliente.getCPF() << endl;
 					arquivo << cliente.getSocio() << endl;
+					arquivo.close();
 					}
 
 					else if (verificacao == 1){
-						arquivo.open("doc/Clientes" + Nome_cliente + ".txt", ios::in);
+					arquivo.open("doc/Clientes/" + Nome_cliente + ".txt", ios::in);
 						
-						Cliente cliente;
+						if(arquivo.is_open()){
 
-						string linhas_lidas;
+						for (int i = 0; i < 6; i++)
+						{
+							getline(arquivo, linhas_do_arquivo);
 
-						for(int i = 0; i < 6; i++){
-							getline(arquivo, linhas_lidas);
-							if (i == 0){
-								cliente.setNome(linhas_lidas);
-								cout << i << ": " << linhas_lidas;
+							if (i == 0)
+							{
+							cliente.setNome(linhas_do_arquivo);
 							}
 
 							if(i == 1){
-								cliente.setIdade(0);
-								cout << i << ": " << linhas_lidas;
+								cliente.setIdade(stoi(linhas_do_arquivo));
 							}
 
 							if(i == 2){
-								cliente.setTelefone(linhas_lidas);
-								cout << i << ": " << linhas_lidas;
+								cliente.setTelefone(linhas_do_arquivo);
 							}
 
 							if(i == 3){
-								cliente.setEmail(linhas_lidas);
-								cout << i << ": " << linhas_lidas;
+								cliente.setEmail(linhas_do_arquivo);
 							}
 
 							if(i == 4){
-								cliente.setCPF(linhas_lidas);
-								cout << i << ": " << linhas_lidas;
+								cliente.setCPF(linhas_do_arquivo);
 							}
 
 							if(i == 5){
-								cliente.setSocio(linhas_lidas);
-								if(linhas_do_arquivo == "Não"){
-									verificacao_2++;
-								}
-								cout << i << ": " << linhas_lidas;
+								cliente.setSocio(linhas_do_arquivo);
 							}
 						}
 						arquivo.close();
-						
-						if(verificacao_2 != 0){
-							cout << "Esse cliente não é sócio. Ele deseja se tornar um?" << endl;
-							cout << "Responda Sim ou Não: ";
-							
-							Socio = getString();
-						
-							cout << endl;
-
-						if(Socio == "Sim"){
-							cliente.setSocio("Sim");
-							
-							vector <string> linhas;
-							arquivo.open("doc/Clientes" + Nome_cliente + ".txt", ios::in);
-
-						while(getline(arquivo, linhas_do_arquivo)){
-							linhas.push_back(linhas_do_arquivo);
 						}
-						arquivo.close();
 
-						arquivo.open("doc/Clientes" + Nome_cliente + ".txt", ios::out);
-						
-						for(int i = 0; i < linhas.size(); i++){
-							if(i == 5){
-								linhas[i] = "Sim";
-							}
-							arquivo << linhas[i];
-						}
+						//Verificando se funcionou
+						else{
+							cout << "Não foi possível abrir o arquivo do cliente";
+							break;
 						}
 					}
-				}
+
+					//Desenvolvendo o carrinho de compras
+					//Dados do carrinho
+					vector<Produto> produtos;
+					float ValorVenda = 0;
+					float ValorDesconto = 0;
+					float ValorFinal = 0;
+
+					//Dados do produto
+					vector<Categoria> categorias; //--
+					Categoria categoria; //--
+					string Nome_produto; //--
+					int Quantidade_produto; //--
+					int Quantidade; //--
+					float Preco; //--
+
+					//Dados de arquivo
+					int verificacao_produto = 0;
+					vector <string> linhas;
+
+					//Contadores
+					int contador_erros = 0;
+					int contador_saida = 0;
+
+					//Adicionando produtos ao carrinho
+
+					while (contador_saida == 0){
+
+					cout << "Informe o nome do produto para adicioná-lo ao carrinho ou digite 0 para sair: ";
+					Nome_produto = getString();
+					cout << endl;
+
+					if(Nome_produto == "0"){
+					contador_saida++;
+					}
+
+						if(Nome_produto != "0"){
+						arquivo.open("doc/Estoque/Estoque.txt", ios::in);
+						if(arquivo.is_open()){
+							while(getline(arquivo, linhas_do_arquivo)){
+								if(linhas_do_arquivo == Nome_produto){
+									verificacao_produto++;
+								}
+							}
+						}
+						arquivo.close();
+
+						if(verificacao_produto == 0){
+						cout << "Esse produto não está registrado no estoque!" << endl << endl;
+						break;
+					}
+
+					if(verificacao_produto == 1){
+						arquivo.open("doc/Estoque/" + Nome_produto + ".txt", ios::in);
+						
+						//Lendo dados do produto
+						if (arquivo.is_open())
+						{
+						while(getline(arquivo, linhas_do_arquivo))
+						{
+							linhas.push_back(linhas_do_arquivo);
+						}
+
+						arquivo.close();
+
+						//Criando produto com os dados lidos.
+						for(int i = 0; i < linhas.size(); i++){
+							if(i == 0){
+								Quantidade_produto = stoi(linhas[i]);
+							}
+
+							if(i == 1){
+								Preco = stof(linhas[i]);
+							}
+
+							if(i >= 2){
+								categoria = linhas[i];
+								categorias.push_back(categoria);
+							}
+						}
+
+						cout << "Quantidade disponível do produto: " << Quantidade_produto << endl;
+						cout << "Quanto desse produto se deseja no carrinho: ";
+						Quantidade = getInput <int> ();
+						cout << endl;
+
+						if(Quantidade > Quantidade_produto){
+							contador_erros++;
+						}
+						
+						Produto produto (categorias, Nome_produto, Quantidade, Preco);
+						categorias.clear();
+
+						if(Quantidade_produto != 0){
+						ValorVenda += produto.getQuantidade() * produto.getPreco();
+						produtos.push_back(produto);
+						}
+
+						cout << "Foram adicionados no carrinho de compras " + to_string(Quantidade) + " unidade(s) de " + Nome_produto << endl << endl;
+						verificacao_produto = 0;
+						linhas.clear();
+					}
+					}
+					else{
+						cout << "Não foi possível abrir o arquivo";
+					}
+					}
+					}
+
+					//Calculando o desconto
+					if(cliente.getSocio() == "Sim"){
+						ValorDesconto = ValorVenda * 0.15;
+					}
+
+					if(contador_erros == 0){
+
+					cout << "-----------------------DETALHES DA VENDA--------------------------------------" << endl;
+					
+					//PRODUTOS
+					for (int i = 0; i < produtos.size(); i++){
+						cout << "Nome do produto: " + produtos[i].getNome() << endl;
+						cout << "Quantidade comprada: " + to_string(produtos[i].getQuantidade()) << endl;
+						cout << "Valor total: ";
+						cout << fixed << setprecision(2) << produtos[i].getPreco() * produtos[i].getQuantidade() << endl << endl;
+					}
+
+					//VALORES DA COMPRA
+					ValorFinal = ValorVenda - ValorDesconto;
+
+					Carrinho carrinho (produtos, ValorVenda, ValorDesconto, ValorFinal);
+
+					carrinho.imprime_dados();
+					}
+
+					//DIMINUINDO A QUANTIDADE DOS PRODUTOS NO ESTOQUE
+					for(int i = 0; i < produtos.size(); i++){
+					vector <Categoria> categorias_salvas;
+
+					arquivo.open("doc/Estoque/" + produtos[i].getNome() + ".txt", ios::out);
+					arquivo << Quantidade_produto - produtos[i].getQuantidade() << endl;
+					arquivo << fixed << setprecision(2) << produtos[i].getPreco() << endl;
+					
+					categorias_salvas = produtos[i].getCategoria();
+					for(int j = 0; j < categorias_salvas.size(); j++){
+					arquivo << categorias_salvas[j].getNome() << endl;
+					}
+					arquivo.close();
+					categorias_salvas.clear();
+					}
+
+					if(contador_erros >= 1){
+						cout << "ERRO: Foi adicionado um produto em quantidade maior do que a disponível no estoque" << endl << endl;
+					}
+
 					break;
 				}
 				
@@ -433,7 +676,7 @@ void Estoque(){
 						cout << "Categorias registradas" << endl
 							 << endl;
 
-						cout << "--------------------------------------------------------" << endl;
+						cout << "-------------------------------------------------------------" << endl;
 						while (getline(arquivo, linha))
 						{
 							cout << linha << endl;

@@ -13,7 +13,6 @@ class Cliente{
 
 //Atributos
 private:
-	vector <Categoria> categorias;
 	string Nome;
 	int Idade;
 	string Telefone;
@@ -25,10 +24,8 @@ private:
 public:
 
 	Cliente();
+	Cliente(string Nome, int Idade, string Telefone, string Email, string CPF, string Socio);
 	~Cliente();
-
-	vector <Categoria> getCategoria();
-	void setCategoria (vector <Categoria> categorias);
 
 	string getNome();
 	void setNome(string Nome);

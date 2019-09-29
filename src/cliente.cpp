@@ -12,6 +12,16 @@ Cliente::Cliente(){
 	setSocio("");
 }
 
+Cliente::Cliente(string Nome, int Idade, string Telefone, string Email, string CPF, string Socio){
+	setNome(Nome);
+	setIdade(Idade);
+	setEmail(Email);
+	setTelefone(Telefone);
+	setCPF(CPF);
+	setSocio(Socio);
+}
+
+
 Cliente::~Cliente(){
 }
 
