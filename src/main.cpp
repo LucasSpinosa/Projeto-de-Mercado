@@ -55,8 +55,7 @@ int main()
 	while (opcao_programa != 0)
 	{
 		cout << "(1) = Modo Venda" << endl;
-		cout << "(2) = Modo Recomendação" << endl;
-		cout << "(3) = Modo Estoque" << endl;
+		cout << "(2) = Modo Estoque" << endl;
 		cout << "(0) = Sair" << endl
 			 << endl;
 
@@ -74,11 +73,6 @@ int main()
 		}
 
 		case 2:
-		{
-
-			break;
-		}
-		case 3:
 		{
 			Estoque();
 			break;
@@ -312,7 +306,6 @@ fstream arquivo;
 
 					string linhas_do_arquivo;
 
-					//Dados do Cliente
 					Cliente cliente;
 					string Nome_cliente;
 					int Idade;
@@ -423,7 +416,6 @@ fstream arquivo;
 						arquivo.close();
 						}
 
-						//Verificando se funcionou
 						else{
 							cout << "Não foi possível abrir o arquivo do cliente";
 							break;
@@ -438,22 +430,19 @@ fstream arquivo;
 					float ValorFinal = 0;
 
 					//Dados do produto
-					vector<Categoria> categorias; //--
-					Categoria categoria; //--
-					string Nome_produto; //--
-					int Quantidade_produto; //--
-					int Quantidade; //--
-					float Preco; //--
+					vector<Categoria> categorias; 
+					Categoria categoria; 
+					string Nome_produto; 
+					int Quantidade_produto; 
+					int Quantidade; 
+					float Preco; 
 
 					//Dados de arquivo
 					int verificacao_produto = 0;
 					vector <string> linhas;
 
-					//Contadores
 					int contador_erros = 0;
 					int contador_saida = 0;
-
-					//Adicionando produtos ao carrinho
 
 					while (contador_saida == 0){
 
@@ -547,7 +536,7 @@ fstream arquivo;
 
 					cout << "-----------------------DETALHES DA VENDA--------------------------------------" << endl;
 					
-					//PRODUTOS
+					//Lista de produtos
 					for (int i = 0; i < produtos.size(); i++){
 						cout << "Nome do produto: " + produtos[i].getNome() << endl;
 						cout << "Quantidade comprada: " + to_string(produtos[i].getQuantidade()) << endl;
@@ -555,7 +544,7 @@ fstream arquivo;
 						cout << fixed << setprecision(2) << produtos[i].getPreco() * produtos[i].getQuantidade() << endl << endl;
 					}
 
-					//VALORES DA COMPRA
+					//Valores da compra
 					ValorFinal = ValorVenda - ValorDesconto;
 
 					Carrinho carrinho (produtos, ValorVenda, ValorDesconto, ValorFinal);
@@ -563,7 +552,7 @@ fstream arquivo;
 					carrinho.imprime_dados();
 					}
 
-					//DIMINUINDO A QUANTIDADE DOS PRODUTOS NO ESTOQUE
+					//Diminuindo a quantidade dos produtos no estoque
 					for(int i = 0; i < produtos.size(); i++){
 					vector <Categoria> categorias_salvas;
 
@@ -699,6 +688,7 @@ void Estoque(){
 				case 3:
 				{
 
+					//Dados do produto
 					Produto produto;
 					vector<Categoria> categorias;
 					Categoria categoria;
@@ -708,6 +698,7 @@ void Estoque(){
 					int Quantidade_categorias;
 					float Preco;
 
+					//Verificações
 					int leitura = 0;
 					int leitura_2 = 0;
 					int leitura_3 = 0;
