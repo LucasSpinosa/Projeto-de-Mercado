@@ -41,9 +41,13 @@ Como dito antes, no Modo Venda é possível usar o sistema de cadastro de client
 Há cinco opções de operação no modo venda:
 
 (1) = Listar clientes
+
 (2) = Visualizar dados de um cliente
+
 (3) = Remover sócio
+
 (4) = Tornar sócio
+
 (5) = Realizar venda
 
 Agora será explicado o que cada opção faz.
@@ -69,8 +73,8 @@ Agora será explicado o que cada opção faz.
 
 Primeiramente, é verificado se o cliente está registrado no estabelecimento ou não. Isso é feito informando o nome dele. 
 
--Caso esteja, os dados do cliente são lidos e armazenados. 
--Caso não, deve ser informado os dados do cliente para que ocorra o seu cadastro.
+- Caso esteja, os dados do cliente são lidos e armazenados. 
+- Caso não, deve ser informado os dados do cliente para que ocorra o seu cadastro.
 
 Após isso, deve ser informado os nomes dos produtos para que eles sejam adicionados no carrinho de compras. É então exibida a quantidade disponível no estoque. Deve ser informada a quantidade desejada pelo cliente. Essa quantidade é adicionada ao carrinho.
 
@@ -78,8 +82,8 @@ Para parar a adição de produtos, basta digitar 0 e pressionar a tecla Enter.
 
 Por fim, é exibida os detalhes da compra: a lista de produtos comprados (incluindo a quantidade de cada produto e o valor total a ser pago por essa quantidade), o valor da venda, o valor do desconto oferecido ao cliente, caso seja sócio, e o valor total da compra.
 
--Caso a quantidade desejada seja maior que a quantidade disponível no estoque, a compra é cancelada.
--Caso a compra tenha sido executada com sucesso, a quantidade dos produtos no estoque é reajustada.
+- Caso a quantidade desejada seja maior que a quantidade disponível no estoque, a compra é cancelada.
+- Caso a compra tenha sido executada com sucesso, a quantidade dos produtos no estoque é reajustada.
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -90,10 +94,15 @@ No Modo Estoque é realizado o cadastro de produtos e categorias de produtos. É
 No Modo Estoque temos seis opções:
 
 (1) = Registrar categoria
+
 (2) = Listar categorias
+
 (3) = Registrar produtos
+
 (4) = Listar produtos
+
 (5) = Editar quantidade de um produto
+
 (6) = Editar preço de um produto
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
